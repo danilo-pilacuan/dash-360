@@ -47,6 +47,9 @@
         <template #end>
             <b-navbar-item tag="div">
                 <div class="buttons">
+                    <a class="button is-link">
+                        <strong>Descarga nuestra APP</strong>
+                    </a>
                     <a class="button is-primary">
                         <strong>Iniciar Sesión</strong>
                     </a>
