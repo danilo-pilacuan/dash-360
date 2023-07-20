@@ -47,7 +47,7 @@
         <template #end>
             <b-navbar-item tag="div">
                 <div class="buttons">
-                    <a class="button is-link" href="images/app.apk">
+                    <a class="button is-success" :href="urlApk">
                         <strong>Descarga nuestra APP</strong>
                     </a>
                     <a class="button is-primary">
@@ -70,6 +70,11 @@
 export default {
   name: 'App',
   components: {},
+  data(){
+    return {
+        urlApk: process.env.VUE_APP_API+'images/app.apk'
+    }
+  }
 }
 </script>
 
