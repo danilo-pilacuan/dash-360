@@ -169,8 +169,8 @@ export default {
       ],
       //tablas auxiliares @todo cambiar8
       tablaTiposUsuario: [
-        { id: 0, descripcion: "Administrador" },
-        { id: 1, descripcion: "Empleado" }
+        { id: 1, descripcion: "Administrador" },
+        { id: 2, descripcion: "Empleado" }
       ],
       tablaTiposCaracteristica: [],
       //auxiliares modal
