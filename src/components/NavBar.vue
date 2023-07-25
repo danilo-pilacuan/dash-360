@@ -108,6 +108,7 @@
     methods: {
       logout(){
         this.$store.dispatch("setUser", null);
+        this.$router.push("/Inicio")
       }
       
   

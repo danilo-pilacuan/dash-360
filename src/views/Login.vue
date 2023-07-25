@@ -11,15 +11,12 @@
                     <div class="column">
                         <label for="Name">Password</label>
                         <input class="input is-primary" type="password" placeholder="Password" v-model="inputClave">
-                        <a href="forget.html" class="is-size-7 has-text-primary">forget password?</a>
+                        <!-- <a href="forget.html" class="is-size-7 has-text-primary">forget password?</a> -->
                     </div>
                     <div class="column">
                         <b-button class="button is-primary is-fullwidth" @click="submit">Login</b-button>
                     </div>
-                    <div class="has-text-centered">
-                        <p class="is-size-7"> Don't have an account? <a href="#" class="has-text-primary">Sign up</a>
-                        </p>
-                    </div>
+                    
                 </div>
             </div>
         </div>

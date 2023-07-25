@@ -36,7 +36,7 @@
                       {{ props.row[column.field][column.subField] }}
                     </div>
                     <div v-else>
-                      {{ typeof(props.row[column.field])=='number'?(props.row[column.field]==0?"Administrador":"Empleado"):props.row[column.field] }}
+                      {{ column.field=='tipo'?(props.row[column.field]==1?"Administrador":(props.row[column.field]==1?"Empleado":"Cliente")):props.row[column.field] }}
                     </div>
                   </template>
                 </b-table-column>
