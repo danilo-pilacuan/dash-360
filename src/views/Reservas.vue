@@ -14,7 +14,7 @@
           <div class="columns">
             <div class="column">
               <b-table :data="tablaDatos" :bordered="true" :striped="true" :narrowed="false" :hoverable="false"
-                :loading="false" :focusable="true" :mobile-cards="false" :searchable="true" :paginated="true"
+                :loading="false" :focusable="false" :mobile-cards="false" :searchable="true" :paginated="true"
                 :per-page="20">
                 <template v-for="column in columns">
                   <b-table-column v-bind="column" :key="column.id">
@@ -23,7 +23,12 @@
                         size="is-small" />
                     </template>
                     <template v-slot="props">
-                      {{ props.row[column.field] }}
+                      <div v-if="typeof props.row[column.field] === 'object'">
+                      {{ props.row[column.field][column.subField] }}
+                    </div>
+                    <div v-else>
+                      {{ column.field=='estado'?(props.row[column.field]==1?"Pendiente":(props.row[column.field]==2?"Confirmada":"Cancelada")):props.row[column.field] }}
+                    </div>
                     </template>
                   </b-table-column>
                 </template>
@@ -121,7 +126,7 @@ export default {
       inputHoraSalida: null,
       inputEstado: null,
       inputNumeroPersonas: null,
-      inputDetalles: null,
+      inputDetalles: "",
       inputTotal: null,
 
       tablaDatos: [],
@@ -152,8 +157,8 @@ export default {
           searchable: true,
         },
         {
-          field: "estadoDesc",
-          label: "Estado",
+          field: "estado",
+          label: "Estado Pago",
           searchable: true
         },
         {
@@ -189,7 +194,7 @@ export default {
   },
   methods: {
     fetchDatos() {
-      fetch(process.env.VUE_APP_TITLE + ":3000/"  + this.prefixRuta, {
+      fetch(process.env.VUE_APP_API + this.prefixRuta, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include"
@@ -197,11 +202,8 @@ export default {
         .then(response => response.json())
         .then(data => {
           if (data) {
-            this.tablaDatos = data;
+            this.tablaDatos = data["resultado"];
 
-            for (let i = 0; i < this.tablaDatos.length; i++) {
-              this.tablaDatos[i]["estadoDesc"] = this.tablaEstados.find(x => x.id === this.tablaDatos[i]["estado"]).descripcion;
-            }
           }
         });
     },
@@ -219,7 +221,7 @@ export default {
         total: this.inputTotal
       };
 
-      let url = process.env.VUE_APP_TITLE + ":3000/"  + this.prefixRuta;
+      let url = process.env.VUE_APP_API + this.prefixRuta;
       let method = this.isAdd ? "POST" : "PUT";
       if (this.isEdit) url += "/" + this.currentId;
 

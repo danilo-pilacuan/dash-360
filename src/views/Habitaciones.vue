@@ -14,7 +14,7 @@
         <div class="columns">
           <div class="column">
             <b-table :data="tablaDatos" :bordered="true" :striped="true" :narrowed="false" :hoverable="false"
-              :loading="false" :focusable="true" :mobile-cards="false" :searchable="true" :paginated="true"
+              :loading="false" :focusable="false" :mobile-cards="false" :searchable="true" :paginated="true"
               :per-page="20">
               <template v-for="column in columns">
                 <b-table-column v-bind="column" :key="column.id">

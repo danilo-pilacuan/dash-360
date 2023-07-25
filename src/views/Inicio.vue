@@ -180,79 +180,79 @@ export default
   methods:{
     fetchUsuarios() {
       try {
-        fetch(
-          process.env.VUE_APP_API +
-            ":3000/api/usuarios",
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            var resp = data;
+        // fetch(
+        //   process.env.VUE_APP_API +
+        //     ":3000/api/usuarios",
+        //   {
+        //     method: "GET",
+        //     headers: { "Content-Type": "application/json" },
+        //     credentials: "include",
+        //   }
+        // )
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     var resp = data;
 
-            if (data) {
+        //     if (data) {
               
-              this.numUsuarios=data["resultado"].length;
+        //       this.numUsuarios=data["resultado"].length;
               
-            } else {
-              this.datosPaciente = [];
-            }
-          });
+        //     } else {
+        //       this.datosPaciente = [];
+        //     }
+        //   });
       } catch (e) {
       }
     },
     fetchPacientes() {
       try {
-        fetch(
-          process.env.VUE_APP_API +
-            ":3000/api/pacientes",
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            var resp = data;
+        // fetch(
+        //   process.env.VUE_APP_API +
+        //     ":3000/api/pacientes",
+        //   {
+        //     method: "GET",
+        //     headers: { "Content-Type": "application/json" },
+        //     credentials: "include",
+        //   }
+        // )
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     var resp = data;
 
-            if (data) {
+        //     if (data) {
               
-              this.numPacientes=data["resultado"].length;
+        //       this.numPacientes=data["resultado"].length;
               
-            } else {
-              this.datosPaciente = [];
-            }
-          });
+        //     } else {
+        //       this.datosPaciente = [];
+        //     }
+        //   });
       } catch (e) {
       }
     },
     fetchLecturas() {
       try {
-        fetch(
-          process.env.VUE_APP_API +
-            ":3000/api/lecturas",
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            var resp = data;
+        // fetch(
+        //   process.env.VUE_APP_API +
+        //     ":3000/api/lecturas",
+        //   {
+        //     method: "GET",
+        //     headers: { "Content-Type": "application/json" },
+        //     credentials: "include",
+        //   }
+        // )
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     var resp = data;
 
-            if (data) {
+        //     if (data) {
               
-              this.numMediciones=data["resultado"].length;
+        //       this.numMediciones=data["resultado"].length;
               
-            } else {
-              this.datosPaciente = [];
-            }
-          });
+        //     } else {
+        //       this.datosPaciente = [];
+        //     }
+        //   });
       } catch (e) {
       }
     },
