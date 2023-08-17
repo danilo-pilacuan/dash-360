@@ -20,27 +20,22 @@
             <b-navbar-item tag="router-link" :to="{ path: '/Habitaciones' }" v-if="user && user.tipo==1">
                 Habitaciones
             </b-navbar-item>
-            <!-- <b-navbar-item tag="router-link" :to="{ path: '/RegistroRestaurante' }" v-if="user && user.tipo==1">
+            <b-navbar-item tag="router-link" :to="{ path: '/Menu' }" v-if="user && user.tipo==1">
                 Restaurante
-            </b-navbar-item> -->
+            </b-navbar-item>
             <b-navbar-item tag="router-link" :to="{ path: '/Servicios' }" v-if="user && user.tipo==1">
                 Servicios
             </b-navbar-item>
             <b-navbar-item tag="router-link" :to="{ path: '/Tarifas' }" v-if="user && user.tipo==1">
                 Tarifas
             </b-navbar-item>
-            <!-- <b-navbar-item href="/Clientes">
+            <b-navbar-item tag="router-link" :to="{ path: '/Clientes' }" v-if="user && user.tipo==1">
                 Clientes
-            </b-navbar-item> -->
+            </b-navbar-item>
             <b-navbar-item tag="router-link" :to="{ path: '/Reservas' }" v-if="user && user.tipo==1">
                 Reservas
             </b-navbar-item>
-            <!-- <b-navbar-item href="/Mediciones">
-                Mediciones
-            </b-navbar-item> -->
-            <!-- <b-navbar-item href="/Configuracion">
-                Configuración
-            </b-navbar-item> -->
+
             
         </template>
 

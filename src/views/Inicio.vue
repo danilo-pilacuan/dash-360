@@ -2,7 +2,7 @@
     <div>
     <div class="container">
       <!-- <b-breadcrumb
-            align="is-left" size="is-large"
+            size="is-large"
         >
             <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item>
             <b-breadcrumb-item tag='router-link' to="/documentation" active>Inicio</b-breadcrumb-item>

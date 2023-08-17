@@ -1,7 +1,7 @@
 <template>
   <div id="habitacion" class="home">
     <div class="container">
-      <b-breadcrumb align="is-left" size="is-large">
+      <b-breadcrumb size="is-large">
         <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item>
         <b-breadcrumb-item tag='router-link' to="/documentation" active>Habitaciones</b-breadcrumb-item>
       </b-breadcrumb>
@@ -26,8 +26,14 @@
                     <div v-if="typeof props.row[column.field] === 'object'">
                       {{ props.row[column.field][column.subField] }}
                     </div>
+                    <div v-else-if="column.field == 'estado'">
+                      {{ props.row[column.field]==1?"Disponible":"Ocupada" }}
+                    </div>
+                    <div v-else-if="column.field == 'tipo'">
+                      {{ props.row[column.field]==1?"Habitación":"Servicio" }}
+                    </div>
                     <div v-else>
-                      {{ typeof(props.row[column.field])=='number'?(props.row[column.field]==1?"Disponible":"Ocupada"):props.row[column.field] }}
+                      {{props.row[column.field] }}
                     </div>
                   </template>
                 </b-table-column>
@@ -226,6 +232,11 @@ data() {
         searchable: true
       },
       {
+        field: "tipo",
+        label: "Tipo",
+        searchable: true
+      },
+      {
         field: "tarifa",
         subField: "descripcion",
         label: "Tarifa Tipo",
@@ -239,6 +250,10 @@ data() {
       },
     ],
     tablaTarifas: [],
+    tablaTipos: [
+        { id: 1, descripcion: "Habitación" },
+        { id: 2, descripcion: "Servicio" }
+      ],
     isAdd: false,
     isEdit: false,
     tablaEstados: [
@@ -322,7 +337,7 @@ methods: {
 
     let url = process.env.VUE_APP_API   + this.prefixRuta;
     let method = this.isAdd ? "POST" : "PUT";
-    if (this.isEdit) request.id= this.currentId;
+    if (this.isEdit) formData.append( 'id',  this.currentId);
 
     fetch(url+"/uploadImages", {
       method: method,
@@ -363,8 +378,8 @@ methods: {
     this.isAdd = false;
     this.isEdit = true;
     this.currentId = habitacion.id;
-    this.inputNumero = habitacion.numero;
-    this.inputPiso = habitacion.piso;
+    this.inputNumero = parseInt(habitacion.numero);
+    this.inputPiso = parseInt(habitacion.piso);
     this.inputEstado = habitacion.estado;
     this.showModalCreateEdit = true;
   },

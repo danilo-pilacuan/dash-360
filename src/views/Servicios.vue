@@ -1,7 +1,7 @@
 <template>
-    <div id="reserva" class="home">
+    <div id="servicio" class="home">
       <div class="container">
-        <b-breadcrumb align="is-left" size="is-large">
+        <b-breadcrumb size="is-large">
           <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item>
           <b-breadcrumb-item tag='router-link' to="/documentation" active>Servicios</b-breadcrumb-item>
         </b-breadcrumb>
@@ -23,7 +23,8 @@
                         size="is-small" />
                     </template>
                     <template v-slot="props">
-                      {{ props.row[column.field] }}
+                      {{ column.field!="tipo"?props.row[column.field]:"" }}
+                      {{ column.field=="tipo"?(props.row[column.field]==1?"Reservable":"No Reservable"):"" }}
                     </template>
                   </b-table-column>
                 </template>
@@ -59,7 +60,14 @@
               <b-input v-model="inputDescripcion"></b-input>
             </b-field>
             <b-field label="Precio">
-              <b-numberinput v-model="inputPrecio"></b-numberinput>
+              <b-numberinput v-model="inputPrecio" step="0.01"></b-numberinput>
+            </b-field>
+            <b-field label="Tipo">
+              <b-select placeholder="Seleccionar tipo" v-model="inputTipo">
+                <option v-for="option in tablaEstados" :value="option.id" :key="option.id">
+                  {{ option.descripcion }}
+                </option>
+              </b-select>
             </b-field>
           </div>
 
@@ -196,12 +204,16 @@ export default {
           label: "Precio",
           searchable: true,
         },
+        {
+          field: "tipo",
+          label: "Tipo",
+          searchable: true,
+        },
         
       ],
       tablaEstados: [
-        { id: 1, descripcion: "Pendiente" },
-        { id: 2, descripcion: "Confirmada" },
-        { id: 3, descripcion: "Cancelada" }
+        { id: 1, descripcion: "Reservable" },
+        { id: 2, descripcion: "No reservable" }
       ],
       isAdd: false,
       isEdit: false,
@@ -237,7 +249,7 @@ export default {
       formData.append( 'foto360', this.foto360 );
       formData.append( 'nombre',  this.inputNombre);
       formData.append( 'descripcion',  this.inputDescripcion);
-      formData.append( 'tipo',  "0");
+      formData.append( 'tipo',  this.inputTipo);
       formData.append( 'precio',  this.inputPrecio);
 
       // let request = {
@@ -254,7 +266,7 @@ export default {
 
       let url = process.env.VUE_APP_API + this.prefixRuta+"/uploadimages";
       let method = this.isAdd ? "POST" : "PUT";
-      if (this.isEdit) url += "/" + this.currentId;
+      if (this.isEdit) formData.append( 'id',  this.currentId);
 
       fetch(url, {
         method: method,
@@ -271,8 +283,8 @@ export default {
         });
     },
 
-    deleteFunction(reserva) {
-      fetch(process.env.VUE_APP_API + this.prefixRuta + "/" + reserva.id, {
+    deleteFunction(servicio) {
+      fetch(process.env.VUE_APP_API + this.prefixRuta + "/" + servicio.id, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include"
@@ -291,19 +303,25 @@ export default {
       this.showModalCreateEdit = true;
     },
 
-    editFunction(reserva) {
+    editFunction(servicio) {
+      console.log(servicio)
       this.isAdd = false;
       this.isEdit = true;
-      this.currentId = reserva.id;
-      this.inputFechaCreacion = reserva.fechaCreacion;
-      this.inputFechaLlegada = reserva.fechaLlegada;
-      this.inputFechaSalida = reserva.fechaSalida;
-      this.inputHoraLlegada = reserva.horaLlegada;
-      this.inputHoraSalida = reserva.horaSalida;
-      this.inputEstado = reserva.estado;
-      this.inputNumeroPersonas = reserva.numeroPersonas;
-      this.inputDetalles = reserva.detalles;
-      this.inputTotal = reserva.total;
+      this.currentId = servicio.id;
+
+      // formData.append( 'fotoNormal', this.fotoNormal );
+      // formData.append( 'foto360', this.foto360 );
+      // formData.append( 'nombre',  this.inputNombre);
+      // formData.append( 'descripcion',  this.inputDescripcion);
+      // formData.append( 'tipo',  this.inputTipo);
+      // formData.append( 'precio',  this.inputPrecio);
+
+      this.inputNombre = servicio.nombre;
+      this.inputDescripcion = servicio.descripcion;
+      this.inputTipo = servicio.tipo;
+      this.inputPrecio = servicio.precio;
+      this.foto360=null;
+      this.fotoNormal=null;
       this.showModalCreateEdit = true;
     },
     viewFunction(servicio) {

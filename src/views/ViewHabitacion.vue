@@ -1,7 +1,7 @@
 <template>
     <div id="reserva" class="home">
       <div class="container">
-        <b-breadcrumb align="is-left" size="is-large">
+        <b-breadcrumb size="is-large">
           <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item>
           <b-breadcrumb-item tag='router-link' to="/documentation" active>Habitación</b-breadcrumb-item>
         </b-breadcrumb>
