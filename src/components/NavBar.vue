@@ -73,7 +73,7 @@
       return {
         //prefijo ruta @todo cambiar3
         prefixRuta: "usuarios",
-        urlApk: process.env.VUE_APP_API+'images/app.apk'
+        urlApk: process.env.VUE_APP_API+'images/app-debug.apk'
   
   
         //info entidad @todo cambiar5

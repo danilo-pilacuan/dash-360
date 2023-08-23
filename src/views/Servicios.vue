@@ -2,7 +2,7 @@
     <div id="servicio" class="home">
       <div class="container">
         <b-breadcrumb size="is-large">
-          <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item>
+          <!-- <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item> -->
           <b-breadcrumb-item tag='router-link' to="/documentation" active>Servicios</b-breadcrumb-item>
         </b-breadcrumb>
         <div class="block">
@@ -62,13 +62,13 @@
             <b-field label="Precio">
               <b-numberinput v-model="inputPrecio" step="0.01"></b-numberinput>
             </b-field>
-            <b-field label="Tipo">
+            <!-- <b-field label="Tipo">
               <b-select placeholder="Seleccionar tipo" v-model="inputTipo">
                 <option v-for="option in tablaEstados" :value="option.id" :key="option.id">
                   {{ option.descripcion }}
                 </option>
               </b-select>
-            </b-field>
+            </b-field> -->
           </div>
 
 
@@ -204,11 +204,11 @@ export default {
           label: "Precio",
           searchable: true,
         },
-        {
-          field: "tipo",
-          label: "Tipo",
-          searchable: true,
-        },
+        // {
+        //   field: "tipo",
+        //   label: "Tipo",
+        //   searchable: true,
+        // },
         
       ],
       tablaEstados: [

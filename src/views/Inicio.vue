@@ -76,8 +76,8 @@
                       </b-icon>
                     </div>
                     <div class="column is-9">
-                      <p class="is-size-5"><b>Ocupadas:</b> {{numPacientes}}</p>
-                      <p class="is-size-5"><b>Libres:</b> {{numPacientes}}</p>
+                      <p class="is-size-5"><b>Ocupadas:</b> {{numHabitacionesLibres}}</p>
+                      <p class="is-size-5"><b>Libres:</b> {{numHabitacionesOcupadas}}</p>
                     </div>
                   </div>
 
@@ -167,92 +167,120 @@ export default
   },
   mounted(){
     this.fetchUsuarios()
-    this.fetchPacientes()
-    this.fetchLecturas()
+    this.fetchHabitacionesLibres()
+    this.fetchHabitacionesOcupadas()
+    this.fetchReservas()
   },
   data(){
     return{
       numUsuarios:0,
-      numPacientes:0,
+      numHabitacionesLibres:0,
+      numHabitacionesOcupadas:0,
       numMediciones:0
     }
   },
   methods:{
     fetchUsuarios() {
       try {
-        // fetch(
-        //   process.env.VUE_APP_API +
-        //     ":3000/api/usuarios",
-        //   {
-        //     method: "GET",
-        //     headers: { "Content-Type": "application/json" },
-        //     credentials: "include",
-        //   }
-        // )
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     var resp = data;
+        fetch(
+          process.env.VUE_APP_API +
+            "cliente",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
 
-        //     if (data) {
+            if (data) {
               
-        //       this.numUsuarios=data["resultado"].length;
+              this.numUsuarios=data["resultado"].length;
               
-        //     } else {
-        //       this.datosPaciente = [];
-        //     }
-        //   });
+            } else {
+              this.datosPaciente = [];
+            }
+          });
       } catch (e) {
       }
     },
-    fetchPacientes() {
+    fetchHabitacionesOcupadas() {
       try {
-        // fetch(
-        //   process.env.VUE_APP_API +
-        //     ":3000/api/pacientes",
-        //   {
-        //     method: "GET",
-        //     headers: { "Content-Type": "application/json" },
-        //     credentials: "include",
-        //   }
-        // )
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     var resp = data;
+        fetch(
+          process.env.VUE_APP_API +
+            "habitaciones/ocupadas",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
 
-        //     if (data) {
+            if (data) {
               
-        //       this.numPacientes=data["resultado"].length;
+              this.numHabitacionesOcupadas=data["resultado"].length;
               
-        //     } else {
-        //       this.datosPaciente = [];
-        //     }
-        //   });
+            } else {
+              this.datosPaciente = [];
+            }
+          });
       } catch (e) {
       }
     },
-    fetchLecturas() {
+    fetchHabitacionesLibres() {
       try {
-        // fetch(
-        //   process.env.VUE_APP_API +
-        //     ":3000/api/lecturas",
-        //   {
-        //     method: "GET",
-        //     headers: { "Content-Type": "application/json" },
-        //     credentials: "include",
-        //   }
-        // )
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     var resp = data;
+        fetch(
+          process.env.VUE_APP_API +
+            "habitaciones/libres",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
 
-        //     if (data) {
+            if (data) {
               
-        //       this.numMediciones=data["resultado"].length;
+              this.numHabitacionesLibres=data["resultado"].length;
               
-        //     } else {
-        //       this.datosPaciente = [];
-        //     }
-        //   });
+            } else {
+              this.datosPaciente = [];
+            }
+          });
+      } catch (e) {
+      }
+    },
+    fetchReservas() {
+      try {
+        fetch(
+          process.env.VUE_APP_API +
+            "reserva",
+          {
+            method: "GET",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+          }
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            var resp = data;
+
+            if (data) {
+              
+              this.numMediciones=data["resultado"].length;
+              
+            } else {
+              this.datosPaciente = [];
+            }
+          });
       } catch (e) {
       }
     },

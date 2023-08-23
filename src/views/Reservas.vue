@@ -2,7 +2,7 @@
     <div id="reserva" class="home">
       <div class="container-fluid m-3">
         <b-breadcrumb size="is-large">
-          <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item>
+          <!-- <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item> -->
           <b-breadcrumb-item tag='router-link' to="/documentation" active>Reserva</b-breadcrumb-item>
         </b-breadcrumb>
         <div class="block">
@@ -13,7 +13,8 @@
           </div>
           <div class="columns">
             <div class="column">
-              <b-table :data="tablaDatos" :bordered="true" :striped="true" :narrowed="true" :hoverable="false"
+              <h2 class="subtitle">Reservas Activas</h2>
+              <b-table :data="tablaDatosActivas" :bordered="true" :striped="true" :narrowed="true" :hoverable="false"
                 :loading="false" :focusable="false" :mobile-cards="false" :searchable="false" :paginated="false">
                 <template v-for="column in columns">
                   <b-table-column v-bind="column" :key="column.id">
@@ -37,9 +38,50 @@
                 </template>
                 <b-table-column field="actions" label="Acciones" v-slot="props">
                   <div class="buttons">
-                    <b-button rounded type="is-link" size="is-small" icon-left="printer" @click="editFunction(props.row)">
+                    <!-- <b-button rounded type="is-link" size="is-small" icon-left="printer" @click="editFunction(props.row)">
                       Imprimir Factura
+                    </b-button> -->
+                    <b-button rounded type="is-warning" size="is-small" icon-left="pencil" @click="editFunction(props.row)">
+                      Editar
                     </b-button>
+                    <b-button rounded type="is-danger" size="is-small" icon-left="delete" @click="deleteFunction(props.row)">
+                      Eliminar
+                    </b-button>
+                  </div>
+                </b-table-column>
+              </b-table>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column">
+              <h2 class="subtitle">Reservas Finalizadas</h2>
+              <b-table :data="tablaDatosInactivas" :bordered="true" :striped="true" :narrowed="true" :hoverable="false"
+                :loading="false" :focusable="false" :mobile-cards="false" :searchable="false" :paginated="false">
+                <template v-for="column in columns">
+                  <b-table-column v-bind="column" :key="column.id">
+                    <template v-if="column.searchable && !column.numeric" #searchable="props">
+                      <b-input v-model="props.filters[props.column.field.subField]" placeholder="Buscar..." icon="magnify"
+                        size="is-small" />
+                    </template>
+                    <template v-slot="props">
+                      <div v-if="typeof props.row[column.field] === 'object'">
+                      {{ props.row[column.field][column.subField] }}
+                    </div>
+                    <div v-else-if="column.field=='fechaCreacion' || column.field=='fechaLlegada' || column.field=='fechaSalida'">
+                      <!-- <b-datetimepicker :value="new Date(props.row[column.field])" disabled></b-datetimepicker> -->
+                      {{ new Date(props.row[column.field]).toLocaleString('en-GB', { timeZone: 'UTC', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }) }}
+                    </div>
+                    <div v-else>
+                      {{ column.field=='estado'?(props.row[column.field]==1?"Pendiente":(props.row[column.field]==2?"Confirmada":(props.row[column.field]==3?"Cancelada":"Finalizada"))):props.row[column.field] }}
+                    </div>
+                    </template>
+                  </b-table-column>
+                </template>
+                <b-table-column field="actions" label="Acciones" v-slot="props">
+                  <div class="buttons">
+                    <!-- <b-button rounded type="is-link" size="is-small" icon-left="printer" @click="editFunction(props.row)">
+                      Imprimir Factura
+                    </b-button> -->
                     <b-button rounded type="is-warning" size="is-small" icon-left="pencil" @click="editFunction(props.row)">
                       Editar
                     </b-button>
@@ -318,6 +360,8 @@ export default {
       urlComprobante:process.env.VUE_APP_API+'images/assets/no-img.jpg',
 
       tablaDatos: [],
+      tablaDatosActivas: [],
+      tablaDatosInactivas: [],
       tablaReservaPlatos:null,
       tablaServicios:null,
       tablaReservaServicios:null,
@@ -469,7 +513,8 @@ export default {
   mounted() {
     this.fetchClientes();
     this.fetchHabitaciones();
-    this.fetchDatos();
+    this.fetchDatosActivas();
+    this.fetchDatosInactivas();
     this.fetchPlatos();
     this.fetchServicios();
   },
@@ -604,11 +649,27 @@ export default {
       this.isAdd = false;
       this.isEdit = false;
       this.showModalCreateEdit = false;
-      this.fetchDatos();
+      this.fetchDatosActivas();
+      this.fetchDatosInactivas();
+      //this.fetchDatos();
       
     },
-    fetchDatos() {
-      fetch(process.env.VUE_APP_API + this.prefixRuta, {
+    // fetchDatos() {
+    //   fetch(process.env.VUE_APP_API + this.prefixRuta, {
+    //     method: "GET",
+    //     headers: { "Content-Type": "application/json" },
+    //     credentials: "include"
+    //   })
+    //     .then(response => response.json())
+    //     .then(data => {
+    //       if (data) {
+    //         this.tablaDatos = data["resultado"];
+            
+    //       }
+    //     });
+    // },
+    fetchDatosActivas() {
+      fetch(process.env.VUE_APP_API + this.prefixRuta+"/getByActivas", {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include"
@@ -616,7 +677,21 @@ export default {
         .then(response => response.json())
         .then(data => {
           if (data) {
-            this.tablaDatos = data["resultado"];
+            this.tablaDatosActivas = data["resultado"];
+            
+          }
+        });
+    },
+    fetchDatosInactivas() {
+      fetch(process.env.VUE_APP_API + this.prefixRuta+"/getByInactivas", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data) {
+            this.tablaDatosInactivas = data["resultado"];
             
           }
         });

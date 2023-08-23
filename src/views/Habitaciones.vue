@@ -2,8 +2,8 @@
   <div id="habitacion" class="home">
     <div class="container">
       <b-breadcrumb size="is-large">
-        <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item>
-        <b-breadcrumb-item tag='router-link' to="/documentation" active>Habitaciones</b-breadcrumb-item>
+        <!-- <b-breadcrumb-item tag='router-link' to="/">Dashboard</b-breadcrumb-item> -->
+        <b-breadcrumb-item tag='router-link' to="/documentation" active>Habitaciones y Servicios</b-breadcrumb-item>
       </b-breadcrumb>
       <div class="block">
         <div class="columns">
@@ -110,8 +110,8 @@
     <section class="modal-card-body">
       <div class="columns">
         <div class="column">
-          <b-field label="Numero">
-            <b-numberinput v-model="inputNumero"></b-numberinput>
+          <b-field label="Descripción">
+            <b-input v-model="inputNumero"></b-input>
           </b-field>
         </div>
         </div>
@@ -138,6 +138,17 @@
             <b-field label="Tarifa">
               <b-select placeholder="Seleccionar tarifa" v-model="inputTarifa">
                 <option v-for="option in tablaTarifas" :value="option.id" :key="option.id">
+                  {{ option.descripcion }}
+                </option>
+              </b-select>
+            </b-field>
+          </div>
+        </div>
+        <div class="columns">
+          <div class="column">
+            <b-field label="Tipo">
+              <b-select placeholder="Seleccionar tipo" v-model="inputTipo">
+                <option v-for="option in tablaTipos" :value="option.id" :key="option.id">
                   {{ option.descripcion }}
                 </option>
               </b-select>
@@ -209,6 +220,7 @@ data() {
     inputPiso: 0,
     inputEstado: 1,
     inputTarifa:1,
+    inputTipo:1,
     fotoNormal:null,
     foto360:null,
     urlFotoNormal:"",
@@ -326,6 +338,7 @@ methods: {
     formData.append( 'piso',  this.inputPiso);
     formData.append( 'estado',  this.inputEstado);
     formData.append( 'tarifaId',  this.inputTarifa);
+    formData.append( 'tipo',  this.inputTipo);
     
 
     // let request = {
